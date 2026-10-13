@@ -1,0 +1,385 @@
+{
+    "info": {
+        "name": "ControlPark-IQ · Servicio Auth (GA7-220501096-AA5)",
+        "description": "Pruebas del servicio web de registro e inicio de sesión de ControlPark-IQ. Ejecutar en orden con el proyecto corriendo en http://localhost:8080. Si se repite la colección, cambie el usuario o vacíe la tabla usuarios.",
+        "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+    },
+    "variable": [
+        {
+            "key": "baseUrl",
+            "value": "http://localhost:8080"
+        }
+    ],
+    "item": [
+        {
+            "name": "Registro",
+            "item": [
+                {
+                    "name": "1 · Registro correcto",
+                    "event": [
+                        {
+                            "listen": "test",
+                            "script": {
+                                "type": "text/javascript",
+                                "exec": [
+                                    "pm.test('Código HTTP 201', function () { pm.response.to.have.status(201); });",
+                                    "pm.test('Mensaje: Usuario registrado correctamente', function () { pm.expect(pm.response.json().mensaje).to.eql('Usuario registrado correctamente'); });"
+                                ]
+                            }
+                        }
+                    ],
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n    \"usuario\": \"porteria.torre1\",\n    \"contrasena\": \"Parque2026\",\n    \"rol\": \"PORTERIA\"\n}",
+                            "options": {
+                                "raw": {
+                                    "language": "json"
+                                }
+                            }
+                        },
+                        "url": {
+                            "raw": "{{baseUrl}}/api/auth/registro",
+                            "host": [
+                                "{{baseUrl}}"
+                            ],
+                            "path": [
+                                "api",
+                                "auth",
+                                "registro"
+                            ]
+                        },
+                        "description": "Usuario y contraseña nuevos."
+                    }
+                },
+                {
+                    "name": "2 · Registro repetido",
+                    "event": [
+                        {
+                            "listen": "test",
+                            "script": {
+                                "type": "text/javascript",
+                                "exec": [
+                                    "pm.test('Código HTTP 409', function () { pm.response.to.have.status(409); });",
+                                    "pm.test('Mensaje: El usuario ya existe', function () { pm.expect(pm.response.json().mensaje).to.eql('El usuario ya existe'); });"
+                                ]
+                            }
+                        }
+                    ],
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n    \"usuario\": \"porteria.torre1\",\n    \"contrasena\": \"Parque2026\"\n}",
+                            "options": {
+                                "raw": {
+                                    "language": "json"
+                                }
+                            }
+                        },
+                        "url": {
+                            "raw": "{{baseUrl}}/api/auth/registro",
+                            "host": [
+                                "{{baseUrl}}"
+                            ],
+                            "path": [
+                                "api",
+                                "auth",
+                                "registro"
+                            ]
+                        },
+                        "description": "El mismo usuario de la prueba 1."
+                    }
+                },
+                {
+                    "name": "3 · Registro con usuario vacío",
+                    "event": [
+                        {
+                            "listen": "test",
+                            "script": {
+                                "type": "text/javascript",
+                                "exec": [
+                                    "pm.test('Código HTTP 400', function () { pm.response.to.have.status(400); });",
+                                    "pm.test('Mensaje: Datos inválidos', function () { pm.expect(pm.response.json().mensaje).to.eql('Datos inválidos'); });"
+                                ]
+                            }
+                        }
+                    ],
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n    \"usuario\": \"\",\n    \"contrasena\": \"Parque2026\"\n}",
+                            "options": {
+                                "raw": {
+                                    "language": "json"
+                                }
+                            }
+                        },
+                        "url": {
+                            "raw": "{{baseUrl}}/api/auth/registro",
+                            "host": [
+                                "{{baseUrl}}"
+                            ],
+                            "path": [
+                                "api",
+                                "auth",
+                                "registro"
+                            ]
+                        },
+                        "description": "Usuario vacío."
+                    }
+                },
+                {
+                    "name": "Extra · Registro con contraseña débil",
+                    "event": [
+                        {
+                            "listen": "test",
+                            "script": {
+                                "type": "text/javascript",
+                                "exec": [
+                                    "pm.test('Código HTTP 400', function () { pm.response.to.have.status(400); });",
+                                    "pm.test('Mensaje: Datos inválidos', function () { pm.expect(pm.response.json().mensaje).to.eql('Datos inválidos'); });"
+                                ]
+                            }
+                        }
+                    ],
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n    \"usuario\": \"residente.apto301\",\n    \"contrasena\": \"123\"\n}",
+                            "options": {
+                                "raw": {
+                                    "language": "json"
+                                }
+                            }
+                        },
+                        "url": {
+                            "raw": "{{baseUrl}}/api/auth/registro",
+                            "host": [
+                                "{{baseUrl}}"
+                            ],
+                            "path": [
+                                "api",
+                                "auth",
+                                "registro"
+                            ]
+                        },
+                        "description": "Contraseña de menos de 8 caracteres y sin letras."
+                    }
+                }
+            ]
+        },
+        {
+            "name": "Inicio de sesión",
+            "item": [
+                {
+                    "name": "4 · Login correcto",
+                    "event": [
+                        {
+                            "listen": "test",
+                            "script": {
+                                "type": "text/javascript",
+                                "exec": [
+                                    "pm.test('Código HTTP 200', function () { pm.response.to.have.status(200); });",
+                                    "pm.test('Mensaje: Autenticación satisfactoria', function () { pm.expect(pm.response.json().mensaje).to.eql('Autenticación satisfactoria'); });"
+                                ]
+                            }
+                        }
+                    ],
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n    \"usuario\": \"porteria.torre1\",\n    \"contrasena\": \"Parque2026\"\n}",
+                            "options": {
+                                "raw": {
+                                    "language": "json"
+                                }
+                            }
+                        },
+                        "url": {
+                            "raw": "{{baseUrl}}/api/auth/login",
+                            "host": [
+                                "{{baseUrl}}"
+                            ],
+                            "path": [
+                                "api",
+                                "auth",
+                                "login"
+                            ]
+                        },
+                        "description": "Usuario y contraseña de la prueba 1."
+                    }
+                },
+                {
+                    "name": "5 · Login con contraseña incorrecta",
+                    "event": [
+                        {
+                            "listen": "test",
+                            "script": {
+                                "type": "text/javascript",
+                                "exec": [
+                                    "pm.test('Código HTTP 401', function () { pm.response.to.have.status(401); });",
+                                    "pm.test('Mensaje: Error en la autenticación', function () { pm.expect(pm.response.json().mensaje).to.eql('Error en la autenticación'); });"
+                                ]
+                            }
+                        }
+                    ],
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n    \"usuario\": \"porteria.torre1\",\n    \"contrasena\": \"OtraClave99\"\n}",
+                            "options": {
+                                "raw": {
+                                    "language": "json"
+                                }
+                            }
+                        },
+                        "url": {
+                            "raw": "{{baseUrl}}/api/auth/login",
+                            "host": [
+                                "{{baseUrl}}"
+                            ],
+                            "path": [
+                                "api",
+                                "auth",
+                                "login"
+                            ]
+                        },
+                        "description": "Usuario bien, contraseña mal."
+                    }
+                },
+                {
+                    "name": "6 · Login de usuario inexistente",
+                    "event": [
+                        {
+                            "listen": "test",
+                            "script": {
+                                "type": "text/javascript",
+                                "exec": [
+                                    "pm.test('Código HTTP 401', function () { pm.response.to.have.status(401); });",
+                                    "pm.test('Mensaje: Error en la autenticación', function () { pm.expect(pm.response.json().mensaje).to.eql('Error en la autenticación'); });"
+                                ]
+                            }
+                        }
+                    ],
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n    \"usuario\": \"no.existe\",\n    \"contrasena\": \"Parque2026\"\n}",
+                            "options": {
+                                "raw": {
+                                    "language": "json"
+                                }
+                            }
+                        },
+                        "url": {
+                            "raw": "{{baseUrl}}/api/auth/login",
+                            "host": [
+                                "{{baseUrl}}"
+                            ],
+                            "path": [
+                                "api",
+                                "auth",
+                                "login"
+                            ]
+                        },
+                        "description": "Usuario que no está registrado."
+                    }
+                },
+                {
+                    "name": "Extra · Login sin datos",
+                    "event": [
+                        {
+                            "listen": "test",
+                            "script": {
+                                "type": "text/javascript",
+                                "exec": [
+                                    "pm.test('Código HTTP 400', function () { pm.response.to.have.status(400); });",
+                                    "pm.test('Mensaje: Datos inválidos', function () { pm.expect(pm.response.json().mensaje).to.eql('Datos inválidos'); });"
+                                ]
+                            }
+                        }
+                    ],
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n    \"usuario\": \"\",\n    \"contrasena\": \"\"\n}",
+                            "options": {
+                                "raw": {
+                                    "language": "json"
+                                }
+                            }
+                        },
+                        "url": {
+                            "raw": "{{baseUrl}}/api/auth/login",
+                            "host": [
+                                "{{baseUrl}}"
+                            ],
+                            "path": [
+                                "api",
+                                "auth",
+                                "login"
+                            ]
+                        },
+                        "description": "Campos vacíos."
+                    }
+                }
+            ]
+        }
+    ]
+}
