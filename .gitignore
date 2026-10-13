@@ -1,0 +1,18 @@
+# Carpeta de compilación de Maven (se regenera al compilar)
+target/
+
+# Archivos de los editores
+.idea/
+*.iml
+.vscode/
+.settings/
+.classpath
+.project
+
+# Registros y archivos del sistema
+*.log
+.DS_Store
+Thumbs.db
+
+# Variables de entorno locales con contraseñas reales
+.env
