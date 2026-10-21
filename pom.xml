@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
-    ControlPark-IQ · Servicio web de autenticación
-    Evidencia GA7-220501096-AA5-EV01 · Diseño y desarrollo de servicios web - caso
+    ControlPark-IQ · API REST del proyecto (servicios web)
+    Evidencia GA7-220501096-AA5-EV03 · Diseño y desarrollo de servicios web - proyecto
+    (parte de la EV01 · registro e inicio de sesión, y la amplía a todos los recursos)
     Aprendiz: Carlos Eduardo Valero · Ficha 3235898
 -->
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
@@ -17,10 +18,10 @@
     </parent>
 
     <groupId>co.edu.sena</groupId>
-    <artifactId>controlpark-iq-auth</artifactId>
+    <artifactId>controlpark-iq-api</artifactId>
     <version>1.0.0</version>
-    <name>ControlPark-IQ Auth</name>
-    <description>Servicio web de registro e inicio de sesión de ControlPark-IQ</description>
+    <name>ControlPark-IQ API</name>
+    <description>Servicios web REST de ControlPark-IQ: gestión de parqueaderos para conjuntos residenciales</description>
 
     <properties>
         <java.version>17</java.version>
@@ -57,6 +58,13 @@
         <dependency>
             <groupId>org.springframework.security</groupId>
             <artifactId>spring-security-crypto</artifactId>
+        </dependency>
+
+        <!-- Swagger (OpenAPI): genera la documentación de los servicios en /swagger-ui.html -->
+        <dependency>
+            <groupId>org.springdoc</groupId>
+            <artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
+            <version>2.6.0</version>
         </dependency>
 
         <!-- Pruebas automáticas (JUnit 5 + MockMvc) -->
