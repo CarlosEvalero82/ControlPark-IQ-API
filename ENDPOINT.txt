@@ -1,0 +1,124 @@
+ControlPark-IQ · ENDPOINT de la API del proyecto
+Evidencias GA7-220501096-AA5-EV03 y EV04 · Aprendiz: Carlos Eduardo Valero · Ficha 3235898
+Repositorio: https://github.com/CarlosEvalero82/ControlPark-IQ-API
+
+URL base: http://localhost:8080
+Formato: JSON (Content-Type: application/json)
+Documentación Swagger: http://localhost:8080/swagger-ui.html
+
+Códigos: 200 OK · 201 creado · 204 eliminado · 400 datos inválidos o regla del negocio · 401 login fallido
+         404 no existe · 409 repetido, ocupado o en uso · 415 el cuerpo no es JSON
+
+====================================================================================================
+AUTENTICACIÓN · /api/auth (HU-01)
+====================================================================================================
+POST   /api/auth/registro        → 201 · 400 · 409           Registrar usuario
+       Body: {"usuario": "admin.torres", "contrasena": "Parque2026", "rol": "ADMINISTRADOR"}
+POST   /api/auth/login           → 200 · 400 · 401           Iniciar sesión
+       Body: {"usuario": "admin.torres", "contrasena": "Parque2026"}
+
+====================================================================================================
+USUARIOS · /api/usuarios (HU-02)
+====================================================================================================
+GET    /api/usuarios             → 200                       Listar usuarios
+GET    /api/usuarios/{id}        → 200 · 404                 Consultar usuario
+POST   /api/usuarios             → 201 · 400 · 409           Crear usuario
+       Body: {"usuario": "porteria.torre1", "contrasena": "Garita2026", "rol": "PORTERIA"}
+PUT    /api/usuarios/{id}        → 200 · 400 · 404 · 409     Actualizar usuario
+       Body: {"rol": "PORTERIA", "activo": false}
+DELETE /api/usuarios/{id}        → 204 · 404 · 409           Eliminar usuario
+
+====================================================================================================
+ROLES · /api/roles (HU-02)
+====================================================================================================
+GET    /api/roles                → 200                       Listar roles
+
+====================================================================================================
+UNIDADES RESIDENCIALES · /api/unidades (HU-03)
+====================================================================================================
+GET    /api/unidades             → 200                       Listar unidades
+GET    /api/unidades/{id}        → 200 · 404                 Consultar unidad
+POST   /api/unidades             → 201 · 400 · 409           Crear unidad
+       Body: {"torre": "1", "apartamento": "302", "cuposParqueo": 1}
+PUT    /api/unidades/{id}        → 200 · 400 · 404 · 409     Actualizar unidad
+       Body: {"torre": "1", "apartamento": "302", "cuposParqueo": 2}
+DELETE /api/unidades/{id}        → 204 · 404 · 409           Eliminar unidad
+
+====================================================================================================
+PERSONAS · /api/personas (HU-02)
+====================================================================================================
+GET    /api/personas             → 200 · 400                 Listar personas
+GET    /api/personas/{id}        → 200 · 404                 Consultar persona
+POST   /api/personas             → 201 · 400 · 404 · 409     Crear persona
+       Body: {"documento": "1012345678", "nombres": "Laura", "apellidos": "Gómez Ruiz", "telefono": "3001234567", "correo": "laura.gomez@correo.com", "tipo": "RESIDENTE", "unidadId": 1}
+PUT    /api/personas/{id}        → 200 · 400 · 404 · 409     Actualizar persona
+       Body: igual que crear
+DELETE /api/personas/{id}        → 204 · 404 · 409           Eliminar persona
+
+====================================================================================================
+VEHÍCULOS · /api/vehiculos (HU-04)
+====================================================================================================
+GET    /api/vehiculos            → 200                       Listar vehículos
+GET    /api/vehiculos/{id}       → 200 · 404                 Consultar vehículo
+POST   /api/vehiculos            → 201 · 400 · 404 · 409     Registrar vehículo
+       Body: {"placa": "KLM482", "tipo": "CARRO", "marca": "Mazda", "color": "Gris", "propietarioId": 1}
+PUT    /api/vehiculos/{id}       → 200 · 400 · 404 · 409     Actualizar vehículo
+       Body: igual que crear
+DELETE /api/vehiculos/{id}       → 204 · 404 · 409           Eliminar vehículo
+
+====================================================================================================
+ZONAS DE PARQUEO · /api/zonas (HU-05)
+====================================================================================================
+GET    /api/zonas                → 200                       Listar zonas
+GET    /api/zonas/{id}           → 200 · 404                 Consultar zona
+POST   /api/zonas                → 201 · 400 · 409           Crear zona
+       Body: {"nombre": "Sótano 1", "tipo": "RESIDENTES", "descripcion": "Torres 1 y 2"}
+PUT    /api/zonas/{id}           → 200 · 400 · 404 · 409     Actualizar zona
+       Body: igual que crear
+DELETE /api/zonas/{id}           → 204 · 404 · 409           Eliminar zona
+
+====================================================================================================
+ESPACIOS DE PARQUEO · /api/espacios (HU-05 · HU-06)
+====================================================================================================
+GET    /api/espacios             → 200 · 400                 Listar espacios
+GET    /api/espacios/{id}        → 200 · 404                 Consultar espacio
+POST   /api/espacios             → 201 · 400 · 404 · 409     Crear espacio
+       Body: {"codigo": "R-01", "tipoVehiculo": "CARRO", "zonaId": 1}
+PUT    /api/espacios/{id}        → 200 · 400 · 404 · 409     Actualizar espacio
+       Body: {"codigo": "R-02", "tipoVehiculo": "MOTO", "estado": "INHABILITADO", "zonaId": 1}
+DELETE /api/espacios/{id}        → 204 · 404 · 409           Eliminar espacio
+
+====================================================================================================
+TARIFAS · /api/tarifas (HU-07)
+====================================================================================================
+GET    /api/tarifas              → 200                       Listar tarifas
+GET    /api/tarifas/{id}         → 200 · 404                 Consultar tarifa
+POST   /api/tarifas              → 201 · 400 · 409           Crear tarifa
+       Body: {"tipoVehiculo": "CARRO", "valorHora": 3000, "valorMensualidad": 80000}
+PUT    /api/tarifas/{id}         → 200 · 400 · 404 · 409     Actualizar tarifa
+       Body: {"tipoVehiculo": "CARRO", "valorHora": 3500, "valorMensualidad": 85000}
+DELETE /api/tarifas/{id}         → 204 · 404                 Eliminar tarifa
+
+====================================================================================================
+SESIONES DE PARQUEO · /api/sesiones (HU-08 · HU-10)
+====================================================================================================
+GET    /api/sesiones             → 200 · 400                 Listar sesiones
+GET    /api/sesiones/{id}        → 200 · 404                 Consultar sesión
+POST   /api/sesiones             → 201 · 400 · 404 · 409     Registrar entrada
+       Body: {"vehiculoId": 2, "espacioId": 2, "horaEntrada": "2026-10-20T08:00:00"}
+PUT    /api/sesiones/{id}        → 200 · 400 · 404 · 409     Registrar salida
+       Body: {"horaSalida": "2026-10-20T10:30:00"}
+DELETE /api/sesiones/{id}        → 204 · 404 · 409           Eliminar sesión
+
+====================================================================================================
+FACTURAS DE VISITANTES · /api/facturas (HU-09)
+====================================================================================================
+GET    /api/facturas             → 200                       Listar facturas
+GET    /api/facturas/{id}        → 200 · 404                 Consultar factura
+POST   /api/facturas             → 201 · 400 · 404 · 409     Generar factura
+       Body: {"sesionId": 2}
+PUT    /api/facturas/{id}        → 200 · 400 · 404 · 409     Pagar factura
+       Body: {"metodoPago": "EFECTIVO"}
+DELETE /api/facturas/{id}        → 204 · 404 · 409           Anular factura
+
+Total: 48 endpoints en 11 recursos.
