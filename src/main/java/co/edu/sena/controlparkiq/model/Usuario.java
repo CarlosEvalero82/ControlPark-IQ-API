@@ -1,5 +1,6 @@
 package co.edu.sena.controlparkiq.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -33,7 +34,8 @@ public class Usuario {
     @Column(name = "nombre_usuario", nullable = false, unique = true, length = 20)
     private String nombreUsuario;
 
-    /** Contraseña protegida con BCrypt (60 caracteres). */
+    /** Contraseña protegida con BCrypt (60 caracteres). Nunca se devuelve en el JSON. */
+    @JsonIgnore
     @Column(nullable = false, length = 60)
     private String contrasena;
 
